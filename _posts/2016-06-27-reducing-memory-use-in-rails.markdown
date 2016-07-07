@@ -39,13 +39,14 @@ User.
 
 This doesn't instantiate any Users. It runs a single SQL update against the DB directly, and is far faster. It's also more clear to read.
 
-One challenge is that rails doesn't currently support `.or`. This is coming soon in rails 5 though, so you'll probably be able to do:
+One challenge is that rails 4 doesn't support `.or`. In rails 5 you can do:
 
 {% highlight ruby %}
 User.
-  living.(
-    User.with_outie_belly_button.or.elligible_for_nougies
-  ).update_all(foo: "New improved foo")
+  with_outie_belly_button.
+  or(User.elligible_for_nougies).
+  living.
+  update_all(foo: "New improved foo")
 {% endhighlight %}
 
 You may also want to negate an existing scope that involves some complex logic, rather than creating an additional scope. For instance .eligible_for_nougies vs. .inelligible_for_nougies. In rails 4.2 you can do:
